@@ -83,7 +83,7 @@ if [[ "$WERCKER_AWS_CLOUDFORMATION_ACTION" == "create-stack" || "$WERCKER_AWS_CL
       STACKLIST=$(aws --region "$WERCKER_AWS_CLOUDFORMATION_REGION" cloudformation list-stacks)
       echo "$STACKLIST"
 
-      STACKSTATUS=$(echo "$STACKLIST" | python -c 'import json,sys,os;obj=json.load(sys.stdin);ourstacks=[s["StackStatus"] for s in obj["StackSummaries"] if s["StackName"] == os.environ.get("WERCKER_AWS_CLOUDFORMATION_STACK")];print ourstacks[0]')
+      STACKSTATUS=$(echo "$STACKLIST" | python -c 'import json,sys,os;obj=json.load(sys.stdin);ourstacks=[s["StackStatus"] for s in obj["StackSummaries"] if s["StackName"] == os.environ.get("WERCKER_AWS_CLOUDFORMATION_STACK")];print(ourstacks[0])')
       echo "$STACKSTATUS"
 
       if [ "$WERCKER_AWS_CLOUDFORMATION_ACTION" == "create-stack" && "$STACKSTATUS" == "CREATE_COMPLETE" ]; then

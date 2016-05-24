@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 if [ ! -n "$AWS_ACCESS_KEY_ID" ]; then
   if [ ! -n "$WERCKER_AWS_CLOUDFORMATION_AWS_ACCESS_KEY_ID" ]; then

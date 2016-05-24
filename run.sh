@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -ex
 
 if [ ! -n "$AWS_ACCESS_KEY_ID" ]; then
   if [ ! -n "$WERCKER_AWS_CLOUDFORMATION_AWS_ACCESS_KEY_ID" ]; then
@@ -61,11 +61,6 @@ fi
 
 # Create / Update Stack
 if [[ "$WERCKER_AWS_CLOUDFORMATION_ACTION" == "create-stack" || "$WERCKER_AWS_CLOUDFORMATION_ACTION" == "update-stack" ]]; then
-  echo aws --region "$WERCKER_AWS_CLOUDFORMATION_REGION" cloudformation $WERCKER_AWS_CLOUDFORMATION_ACTION \
-    --stack-name "$WERCKER_AWS_CLOUDFORMATION_STACK" \
-    $WERCKER_AWS_CLOUDFORMATION_TEMPLATE_ARG \
-    --parameters $WERCKER_AWS_CLOUDFORMATION_PARAMETERS \
-    $WERCKER_AWS_CLOUDFORMATION_CAPABILITY_ARG
   aws --region "$WERCKER_AWS_CLOUDFORMATION_REGION" cloudformation $WERCKER_AWS_CLOUDFORMATION_ACTION \
     --stack-name "$WERCKER_AWS_CLOUDFORMATION_STACK" \
     $WERCKER_AWS_CLOUDFORMATION_TEMPLATE_ARG \
@@ -92,8 +87,6 @@ fi
 
 # Delete Stack
 if [ "$WERCKER_AWS_CLOUDFORMATION_ACTION" == "delete-stack" ]; then
-  echo aws --region "$WERCKER_AWS_CLOUDFORMATION_REGION" cloudformation delete-stack \
-    --stack-name "$WERCKER_AWS_CLOUDFORMATION_STACK"
   aws --region "$WERCKER_AWS_CLOUDFORMATION_REGION" cloudformation delete-stack \
       --stack-name "$WERCKER_AWS_CLOUDFORMATION_STACK"
 fi

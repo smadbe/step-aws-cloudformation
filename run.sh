@@ -1,5 +1,7 @@
 #!/bin/bash -ex
 
+echo "hoge"
+
 if [ ! -n "$AWS_ACCESS_KEY_ID" ]; then
   if [ ! -n "$WERCKER_AWS_CLOUDFORMATION_AWS_ACCESS_KEY_ID" ]; then
     error "Please specify an AWS_ACCESS_KEY_ID"

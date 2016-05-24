@@ -1,6 +1,5 @@
-#!/bin/bash -ex
-
-echo "hoge"
+#!/bin/bash
+set -ex
 
 if [ ! -n "$AWS_ACCESS_KEY_ID" ]; then
   if [ ! -n "$WERCKER_AWS_CLOUDFORMATION_AWS_ACCESS_KEY_ID" ]; then

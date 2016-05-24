@@ -76,7 +76,10 @@ if [[ "$WERCKER_AWS_CLOUDFORMATION_ACTION" == "create-stack" || "$WERCKER_AWS_CL
   STACKSTATUS="PROGRESS"
 
   if [ "$WERCKER_AWS_CLOUDFORMATION_WAIT" == "true" ]; then
+    echo "wait while progress"
+    echo "$STACKSTATUS"
     while [ "$STACKSTATUS" == *PROGRESS ]; do
+      echo aws --region "$WERCKER_AWS_CLOUDFORMATION_REGION" cloudformation list-stacks
       STACKLIST=$(aws --region "$WERCKER_AWS_CLOUDFORMATION_REGION" cloudformation list-stacks)
       echo "$STACKLIST"
 

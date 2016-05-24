@@ -1,5 +1,5 @@
 name: aws-cloudformation
-version: 0.4.0-SNAPSHOT
+version: 0.4.0-0
 description: launches a stack on cloudformation
 keywords:
   - aws

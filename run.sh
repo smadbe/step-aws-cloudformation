@@ -78,7 +78,7 @@ if [[ "$WERCKER_AWS_CLOUDFORMATION_ACTION" == "create-stack" || "$WERCKER_AWS_CL
   if [ "$WERCKER_AWS_CLOUDFORMATION_WAIT" == "true" ]; then
     echo "wait while progress"
     echo "$STACKSTATUS"
-    while [ "$STACKSTATUS" == *PROGRESS ]; do
+    while [[ "$STACKSTATUS" == *PROGRESS ]]; do
       echo aws --region "$WERCKER_AWS_CLOUDFORMATION_REGION" cloudformation list-stacks
       STACKLIST=$(aws --region "$WERCKER_AWS_CLOUDFORMATION_REGION" cloudformation list-stacks)
       echo "$STACKLIST"
@@ -90,9 +90,9 @@ if [[ "$WERCKER_AWS_CLOUDFORMATION_ACTION" == "create-stack" || "$WERCKER_AWS_CL
         return 0
       elif [ "$WERCKER_AWS_CLOUDFORMATION_ACTION" == "update-stack" && "$STACKSTATUS" == "UPDATE_COMPLETE" ]; then
         return 0
-      elif [ "$STACKSTATUS" == "ROLLBACK_COMPLETE" || "$STACKSTATUS" == "DELETE_COMPLETE" ]; then
+      elif [[ "$STACKSTATUS" == *FAILED ]]; then
         return 1
-      elif [ "$STACKSTATUS" == *FAILED ]; then
+      elif [ "$STACKSTATUS" == "ROLLBACK_COMPLETE" || "$STACKSTATUS" == "DELETE_COMPLETE" ]; then
         return 1
       fi
       info "Waiting for launch, checking again in 10 seconds..."

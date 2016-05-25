@@ -76,16 +76,10 @@ if [[ "$WERCKER_AWS_CLOUDFORMATION_ACTION" == "create-stack" || "$WERCKER_AWS_CL
   STACKSTATUS="PROGRESS"
 
   if [ "$WERCKER_AWS_CLOUDFORMATION_WAIT" == "true" ]; then
-    echo "wait while progress"
-    echo "$STACKSTATUS"
     while [[ "$STACKSTATUS" == *PROGRESS ]]; do
-      echo aws --region "$WERCKER_AWS_CLOUDFORMATION_REGION" cloudformation list-stacks
       STACKLIST=$(aws --region "$WERCKER_AWS_CLOUDFORMATION_REGION" cloudformation list-stacks)
-      echo "$STACKLIST"
-
       STACKSTATUS=$(echo "$STACKLIST" | python -c 'import json,sys,os;obj=json.load(sys.stdin);ourstacks=[s["StackStatus"] for s in obj["StackSummaries"] if s["StackName"] == os.environ.get("WERCKER_AWS_CLOUDFORMATION_STACK")];print(ourstacks[0])')
       echo "$STACKSTATUS"
-
       if [ "$WERCKER_AWS_CLOUDFORMATION_ACTION" == "create-stack" ] && [ "$STACKSTATUS" == "CREATE_COMPLETE" ]; then
         return 0
       elif [ "$WERCKER_AWS_CLOUDFORMATION_ACTION" == "update-stack" ] && [ "$STACKSTATUS" == "UPDATE_COMPLETE" ]; then

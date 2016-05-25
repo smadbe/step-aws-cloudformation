@@ -1,5 +1,5 @@
 name: aws-cloudformation
-version: 0.3.1-rc7
+version: 0.3.1-rc8
 description: launches a stack on cloudformation
 keywords:
   - aws

@@ -86,13 +86,13 @@ if [[ "$WERCKER_AWS_CLOUDFORMATION_ACTION" == "create-stack" || "$WERCKER_AWS_CL
       STACKSTATUS=$(echo "$STACKLIST" | python -c 'import json,sys,os;obj=json.load(sys.stdin);ourstacks=[s["StackStatus"] for s in obj["StackSummaries"] if s["StackName"] == os.environ.get("WERCKER_AWS_CLOUDFORMATION_STACK")];print(ourstacks[0])')
       echo "$STACKSTATUS"
 
-      if [ "$WERCKER_AWS_CLOUDFORMATION_ACTION" == "create-stack" && "$STACKSTATUS" == "CREATE_COMPLETE" ]; then
+      if [ "$WERCKER_AWS_CLOUDFORMATION_ACTION" == "create-stack" ] && [ "$STACKSTATUS" == "CREATE_COMPLETE" ]; then
         return 0
-      elif [ "$WERCKER_AWS_CLOUDFORMATION_ACTION" == "update-stack" && "$STACKSTATUS" == "UPDATE_COMPLETE" ]; then
+      elif [ "$WERCKER_AWS_CLOUDFORMATION_ACTION" == "update-stack" ] && [ "$STACKSTATUS" == "UPDATE_COMPLETE" ]; then
         return 0
       elif [[ "$STACKSTATUS" == *FAILED ]]; then
         return 1
-      elif [ "$STACKSTATUS" == "ROLLBACK_COMPLETE" || "$STACKSTATUS" == "DELETE_COMPLETE" ]; then
+      elif [ "$STACKSTATUS" == "ROLLBACK_COMPLETE" ] || [ "$STACKSTATUS" == "DELETE_COMPLETE" ]; then
         return 1
       fi
       info "Waiting for launch, checking again in 10 seconds..."
